@@ -42,6 +42,18 @@
 body { letter-spacing: .015em; min-width: 0; }
 a, button { -webkit-tap-highlight-color: transparent; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--vp-c-brand-1); outline-offset: 5px; }
+/* Native CSS cursors keep the click point precise and need no mouse listeners. */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: url('/cursor-bear.svg') 3 3, auto; }
+  a[href], button:enabled, [role='button']:not([aria-disabled='true']),
+  summary, input[type='checkbox']:enabled, input[type='radio']:enabled {
+    cursor: url('/cursor-bear-link.svg') 10 3, pointer;
+  }
+  input:not([type='checkbox']):not([type='radio']), textarea, [contenteditable='true'] {
+    cursor: text;
+  }
+  button:disabled, input:disabled, [aria-disabled='true'] { cursor: not-allowed; }
+}
 .VPNavBar { background: var(--vp-c-bg) !important; }
 .VPNavBar .title { gap: 9px; font-weight: 650; letter-spacing: .05em; }
 .VPNavBar .container { max-width: 1184px !important; }

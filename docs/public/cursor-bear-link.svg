@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <path d="M8 17V5C8 1.5 12 1.5 12 5V12C13 9.5 16 10 16 13C17 11 20 12 20 15C23 13.5 25 16 24 20L22 27C21 30 17 31 12 29C9 28 7 25 5 22L2.5 18C1 15.5 3 13.5 5 15L8 17Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M8 17V5C8 1.5 12 1.5 12 5V12C13 9.5 16 10 16 13C17 11 20 12 20 15C23 13.5 25 16 24 20L22 27C21 30 17 31 12 29C9 28 7 25 5 22L2.5 18C1 15.5 3 13.5 5 15L8 17Z" fill="#dceaff" stroke="#244b88" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M16 21C12 17 16 14 19 18C21 17 25 17 27 19C30 15 33 20 29.5 23C32 28 28 31 23 31C17 31 13 27 16 21Z" fill="#fff5e6" stroke="#fff" stroke-width="2.8" stroke-linejoin="round"/>
+  <path d="M16 21C12 17 16 14 19 18C21 17 25 17 27 19C30 15 33 20 29.5 23C32 28 28 31 23 31C17 31 13 27 16 21Z" fill="#fff5e6" stroke="#244b88" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M18.5 24Q19.5 22.5 20.5 24M25.5 24Q26.5 22.5 27.5 24" stroke="#244b88" stroke-width="1" stroke-linecap="round"/>
+  <ellipse cx="23" cy="27" rx="3.2" ry="2.3" fill="#f3e4ce"/>
+  <path d="M21.6 25.6Q23 25 24.4 25.6Q24 27 23 27Q22 27 21.6 25.6Z" fill="#244b88"/>
+  <path d="M21 28Q23 30 25 28" stroke="#244b88" stroke-width=".8" stroke-linecap="round"/>
+</svg>
