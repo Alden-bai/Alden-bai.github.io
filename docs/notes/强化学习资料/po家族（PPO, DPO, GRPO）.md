@@ -24,11 +24,11 @@ SFT只是模仿，模型知道“1+1=2”，也知道“一加一等于二”。
 
 - actor（主角，需要更新参数）
 
-  > 负责根据问题生成答案，也就是策略模型 \(\pi_\theta\)，负责真正输出 token。
+  > 负责根据问题生成答案，也就是策略模型 $\pi_\theta$，负责真正输出 token。
 
 - critic（需要更新参数）
 
-  > 预测当前状态的价值 \(V(s_t)\)，即“从现在继续生成，预计最终能拿多少回报”。然后 `reward + V(s_t)` 再通过 GAE 算出 Advantage。
+  > 预测当前状态的价值 $V(s_t)$，即“从现在继续生成，预计最终能拿多少回报”。然后 `reward + V(s_t)` 再通过 GAE 算出 Advantage。
 
 - reward（冻结参数）
 
@@ -52,13 +52,16 @@ SFT只是模仿，模型知道“1+1=2”，也知道“一加一等于二”。
 **Advantage：实际结果—预期结果**
 
 PPO公式：
-	\(L^{CLIP}(\theta) = \mathbb E \left[ \min \left( r_t(\theta)A_t,\; clip(r_t(\theta),1-\epsilon,1+\epsilon)A_t \right) \right]\)
+
+$$
+L^{\mathrm{CLIP}}(\theta) = \mathbb{E}\left[\min\left(r_t(\theta)A_t,\; \operatorname{clip}\left(r_t(\theta),1-\epsilon,1+\epsilon\right)A_t\right)\right]
+$$
 
 其实也不难理解：
 
 - r：改了多少
 
-  > \(r_t(\theta) = \frac{ \pi_\theta(a_t|s_t) }{ \pi_{\theta_{old}}(a_t|s_t) }\)
+  > $r_t(\theta) = \dfrac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_{\mathrm{old}}}(a_t \mid s_t)}$
   >
   > 旧actor生成某个token的概率是0.2，新actor生成的概率变为了0.4
   >
@@ -70,9 +73,9 @@ PPO公式：
 
   > 步子迈的太大容易把模型训崩，上面的那个例子一次更新直接增加了200%
   >
-  > 但是我们的PPO设置的\(\epsilon=0.2\)
+  > 但是我们的PPO设置的 $\epsilon=0.2$
   >
-  > 所以\(r\in[0.8,1.2]\)
+  > 所以 $r\in[0.8,1.2]$
   >
   > 变化的概率不能超过20%
 
@@ -97,7 +100,13 @@ PPO的缺点就是一次需要加载4个模型，非常吃显存
   > 目的：防止 Actor 为了迎合偏好数据改得太夸张，用来给actor进行参考
 
 DPO的公式：
-\(L_{\text{DPO}} = -\log \sigma \left( \beta \log \frac{\pi_\theta(y_w)} {\pi_{\text{ref}}(y_w)} - \beta \log \frac{\pi_\theta(y_l)} {\pi_{\text{ref}}(y_l)} \right)\)
+
+$$
+L_{\mathrm{DPO}} = -\log \sigma\left(
+\beta \log \frac{\pi_\theta(y_w)}{\pi_{\mathrm{ref}}(y_w)}
+- \beta \log \frac{\pi_\theta(y_l)}{\pi_{\mathrm{ref}}(y_l)}
+\right)
+$$
 
 看着吓人，其实就回答了两个问题：好答案相对于reference提高了多少，坏答案相对于reference降低了多少
 
@@ -105,9 +114,9 @@ DPO的公式：
 
 yw是好答案，yl是坏答案（win和lose）
 
-\[ \frac{\pi_\theta(y_w)} {\pi_{\text{ref}}(y_w)} \]：比如之前的actor生成好答案的概率是10%，新actor模型生成好答案的概率是20%，那么0.2/0.1=2
+$\dfrac{\pi_\theta(y_w)}{\pi_{\mathrm{ref}}(y_w)}$：比如之前的actor生成好答案的概率是10%，新actor模型生成好答案的概率是20%，那么0.2/0.1=2
 
-\[ \frac{\pi_\theta(y_l)} {\pi_{\text{ref}}(y_l)} \]:比如之前的actor生成坏答案的概率是20%，新actor模型生成坏答案的概率是10%，那么0.1/0.2=0.5
+$\dfrac{\pi_\theta(y_l)}{\pi_{\mathrm{ref}}(y_l)}$：比如之前的actor生成坏答案的概率是20%，新actor模型生成坏答案的概率是10%，那么0.1/0.2=0.5
 
 最后log做减法，这个值越大越好
 
@@ -120,7 +129,10 @@ DPO比PPO简单，少了两个模型，但是需要准备大量的依赖的标�
 一句话概括就是：同一道题让模型生成多个答案，不引入critic来评判这个答案生成的有多好，而是通过组内相互打分，组内打分的平均值作为基线，这一组答案中，高于平均值的被鼓励，低于平均值的被压低
 
 GRPO的advantage公式：
-\(A_i= \frac{ r_i-\operatorname{mean}(r_{\text{group}}) }{ \operatorname{std}(r_{\text{group}})+\epsilon }\)
+
+$$
+A_i = \frac{r_i - \operatorname{mean}(r_{\mathrm{group}})}{\operatorname{std}(r_{\mathrm{group}}) + \epsilon}
+$$
 
 std是标准差，将不同题目的奖励尺度统一一下，[1,0,0,0]和[60,20,10,10]这种，尺度就不一样，需要统一一下
 
