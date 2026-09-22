@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import { collectNotes } from './note-index.mjs'
+import { mathCompatibility, mathOptions } from './math.mjs'
 
 const notes = collectNotes(fileURLToPath(new URL('../notes/', import.meta.url)))
 
@@ -15,7 +16,12 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/bear.svg' }],
     ['meta', { name: 'theme-color', content: '#f7faff' }]
   ],
-  markdown: { math: true, lineNumbers: true, codeCopyButtonTitle: '复制代码' },
+  markdown: {
+    math: mathOptions,
+    config: md => md.use(mathCompatibility),
+    lineNumbers: true,
+    codeCopyButtonTitle: '复制代码'
+  },
   sitemap: { hostname: 'https://alden-bai.github.io' },
   themeConfig: {
     logo: { src: '/bear.svg', alt: '布吉熊' },
