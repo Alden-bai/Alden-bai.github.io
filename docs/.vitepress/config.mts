@@ -1,9 +1,11 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'node:url'
-import { collectNotes } from './note-index.mjs'
+import { collectNotebook, createNotebookNavigation } from './note-index.mjs'
 import { mathCompatibility, mathOptions } from './math.mjs'
+import { renderNoteSearch } from './note-search.mjs'
 
-const notes = collectNotes(fileURLToPath(new URL('../notes/', import.meta.url)))
+const notebook = collectNotebook(fileURLToPath(new URL('../notes/', import.meta.url)))
+const navigation = createNotebookNavigation(notebook)
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -23,17 +25,30 @@ export default defineConfig({
     codeCopyButtonTitle: '复制代码'
   },
   sitemap: { hostname: 'https://alden-bai.github.io' },
+  transformPageData(page) {
+    const neighbors = navigation.pages[page.relativePath]
+    if (neighbors) {
+      Object.assign(page.frontmatter, neighbors)
+      // Some imported notebooks start at h2; keep their source untouched and
+      // give the browser tab a useful title using the same index fallback.
+      if (!page.title) page.title = notebook.notes.find(note => `notes/${note.sourcePath}` === page.relativePath)?.title || ''
+    }
+    if (page.relativePath.startsWith('sections/') && page.params?.section) {
+      page.title = page.params.section
+      page.description = `${page.params.section}专区的笔记与学习记录。`
+    }
+  },
   themeConfig: {
     logo: { src: '/bear.svg', alt: '布吉熊' },
     nav: [
       { text: '首页', link: '/', activeMatch: '^/$' },
-      { text: '学习笔记', link: '/notes/', activeMatch: '^/notes/' }
+      { text: '笔记专区', activeMatch: '^/(notes|sections)/', items: [
+        { text: '全部专区', link: '/notes/' },
+        ...notebook.sections.map(section => ({ text: section.name, link: section.url }))
+      ] }
     ],
     socialLinks: [{ icon: 'github', link: 'https://github.com/Alden-bai', ariaLabel: '访问 Alden 的 GitHub' }],
-    sidebar: { '/notes/': [{ text: '学习笔记', items: [
-      { text: '全部笔记', link: '/notes/' },
-      ...notes.map(note => ({ text: note.title, link: note.url }))
-    ] }] },
+    sidebar: navigation.sidebar,
     outline: { level: [2, 3], label: '本页目录' },
     docFooter: { prev: '上一篇', next: '下一篇' },
     returnToTopLabel: '返回顶部',
@@ -50,6 +65,7 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
+        _render: renderNoteSearch,
         miniSearch: {
           options: {
             tokenize: (text: string) => Array.from(new Intl.Segmenter('zh-CN', { granularity: 'word' }).segment(text))

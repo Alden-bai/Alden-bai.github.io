@@ -1,5 +1,6 @@
 <script setup>
-import { data as notes } from '../notes.data.mjs'
+import { data as notebook } from '../notes.data.mjs'
+import SectionCards from './SectionCards.vue'
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import { data as notes } from '../notes.data.mjs'
         <h1 id="home-title">布吉熊的<span>小窝<span class="title-dot">。</span></span></h1>
         <p class="hero-description">把学过的知识、闪过的想法，<br class="desktop-break">整理成可以随时翻阅的笔记。</p>
         <div class="hero-actions">
-          <a class="nest-button primary" href="/notes/">翻开学习笔记 <span aria-hidden="true">↗</span></a>
+          <a class="nest-button primary" href="/notes/">翻开笔记专区 <span aria-hidden="true">↗</span></a>
           <a class="github-link" href="https://github.com/Alden-bai" target="_blank" rel="noopener noreferrer">我的 GitHub <span aria-hidden="true">↗</span></a>
         </div>
         <div class="hero-footnote"><span aria-hidden="true"></span> 保持好奇，慢慢来。</div>
@@ -49,13 +50,13 @@ import { data as notes } from '../notes.data.mjs'
     </section>
 
     <section class="home-notes" aria-labelledby="home-notes-title">
-      <div class="section-heading"><div><span class="section-number">01 / NOTEBOOK</span><h2 id="home-notes-title">学习笔记</h2></div><a class="text-link" href="/notes/">查看全部 <span aria-hidden="true">→</span></a></div>
-      <div v-if="!notes.length" class="home-empty">
+      <div class="section-heading"><div><span class="section-number">01 / NOTEBOOK</span><h2 id="home-notes-title">笔记专区</h2></div><a class="text-link" href="/notes/">全部专区 <span aria-hidden="true">→</span></a></div>
+      <div v-if="!notebook.sections.length" class="home-empty">
         <div class="empty-book-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M20 10Q12 5 5 9V30Q12 26 20 31Q28 26 35 30V9Q28 5 20 10ZM20 10V31M10 14L15 15M10 20L15 21M25 15L30 14M25 21L30 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div><h3>还没有发布笔记</h3><p>新的知识与思考，会慢慢写在这里。</p></div>
         <span class="empty-decoration" aria-hidden="true">每一页，都是一个开始。</span>
       </div>
-      <ul v-else class="note-list home-note-list"><li v-for="note in notes.slice(0, 4)" :key="note.url"><a :href="note.url"><span>{{ note.title }}</span><span aria-hidden="true">↗</span></a></li></ul>
+      <SectionCards v-else :sections="notebook.sections" />
     </section>
   </main>
 </template>

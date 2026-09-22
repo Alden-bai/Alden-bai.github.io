@@ -119,6 +119,20 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--vp-c-brand-1); 
 .notes-page { padding: 15px 0 25px; }
 .notes-page h1 { font-size: 38px; line-height: 1.4; margin-top: 14px; letter-spacing: -.03em; }
 .notes-intro { color: var(--vp-c-text-2); }
+.section-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; list-style: none !important; padding: 0 !important; margin: 30px 0 !important; }
+.section-cards > li { min-width: 0; margin: 0 !important; }
+.vp-doc a.section-card { display: flex; flex-direction: column; height: 100%; min-height: 190px; padding: 25px; border: 1px solid var(--nest-border); border-radius: 14px; color: var(--vp-c-text-1); background: var(--vp-c-bg); text-decoration: none; transition: border-color .18s, background .18s, transform .18s; }
+.vp-doc a.section-card:hover { border-color: var(--vp-c-brand-1); background: var(--vp-c-bg-soft); transform: translateY(-3px); }
+.section-card-top, .section-card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.section-card-arrow { color: var(--vp-c-brand-1); font-size: 21px; }
+.section-card-name { display: block; margin: 20px 0 24px; font-size: 22px; font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
+.section-card-bottom { margin-top: auto; font-size: 13px; color: var(--vp-c-text-2); }
+.section-card-bottom > span:last-child { color: var(--vp-c-brand-1); white-space: nowrap; }
+.section-back { display: block; width: fit-content; margin: 0 0 28px; font-size: 14px; }
+.section-page h1 { overflow-wrap: anywhere; }
+.note-subgroup { margin-top: 28px; }
+.note-subgroup .note-group-title { font-size: 20px; padding-top: 16px; margin-top: 24px; overflow-wrap: anywhere; }
+.note-subgroup .note-subgroup { padding-left: 16px; border-left: 2px solid var(--vp-c-divider); }
 .notes-empty { margin-top: 42px; border: 1px dashed var(--nest-border); border-radius: 16px; padding: 52px 24px; text-align: center; background: var(--vp-c-bg-soft); }
 .notes-empty img { margin: 0 auto 20px; transform: rotate(-7deg); }
 .notes-empty h2 { border: 0; margin: 0; padding: 0; font-size: 21px; }

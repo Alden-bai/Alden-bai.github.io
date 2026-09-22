@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
+    "notes:sync": "node scripts/sync-notes.mjs",
     "dev": "vitepress dev docs --host 127.0.0.1",
     "prebuild": "npm test",
     "build": "vitepress build docs",
