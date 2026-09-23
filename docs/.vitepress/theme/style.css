@@ -126,6 +126,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--vp-c-brand-1); 
 .section-card-top, .section-card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .section-card-arrow { color: var(--vp-c-brand-1); font-size: 21px; }
 .section-card-name { display: block; margin: 20px 0 24px; font-size: 22px; font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
+.upload-date { display: block; font-size: 13px; font-weight: 400; line-height: 1.7; color: var(--vp-c-text-2); }
+.section-card > .upload-date { margin: auto 0 12px; }
 .section-card-bottom { margin-top: auto; font-size: 13px; color: var(--vp-c-text-2); }
 .section-card-bottom > span:last-child { color: var(--vp-c-brand-1); white-space: nowrap; }
 .section-back { display: block; width: fit-content; margin: 0 0 28px; font-size: 14px; }
@@ -144,6 +146,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--vp-c-brand-1); 
 .note-list a { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 8px; font-size: 16px; color: var(--vp-c-text-1); text-decoration: none; transition: color .15s, background .15s; overflow-wrap: anywhere; }
 .note-list a:hover { color: var(--vp-c-brand-1); background: var(--vp-c-bg-soft); }
 .note-list a > span:last-child { color: var(--vp-c-brand-1); }
+.note-list-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .vp-doc mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
 .vp-doc p, .vp-doc li { line-height: 1.85; }
 .VPDoc.has-sidebar ~ .nest-footer { padding-left: 16px; }

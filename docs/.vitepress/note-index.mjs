@@ -1,5 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { resolve, relative, basename, sep } from 'node:path'
+import matter from 'gray-matter'
+import { createNoteDateReader, latestUploadDate } from './note-dates.mjs'
 
 export const ignoredDirectories = new Set(['node_modules', '$RECYCLE.BIN', 'System Volume Information', '__MACOSX'])
 const compare = (a, b) => a.localeCompare(b, 'zh-CN', { numeric: true })
@@ -16,15 +18,17 @@ export function collectNotes(root) {
     }
   }
   walk(root)
+  const readDate = createNoteDateReader(root)
   return files.map(file => {
-    const source = readFileSync(file, 'utf8').replace(/^\uFEFF/, '').replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '')
+    const { content: source, data } = matter(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''))
     const withoutFences = source.replace(/^(`{3,}|~{3,})[^\n]*\n[\s\S]*?^\1[^\n]*$/gm, '')
     const heading = withoutFences.match(/^#\s+(.+?)\s*#*\s*$/m)?.[1]
-    const title = (heading || basename(file, '.md')).replace(/\s*\{#[^}]+\}\s*$/, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*`_]/g, '')
+    const explicitTitle = typeof data.title === 'string' ? data.title.trim() : ''
+    const title = (explicitTitle || heading || basename(file, '.md')).replace(/\s*\{#[^}]+\}\s*$/, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*`_]/g, '')
     const parts = relative(root, file).split(sep)
     const relativePath = parts.map(encodeURIComponent).join('/')
     const url = '/notes/' + relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '.html')
-    return { title, url, sourcePath: parts.join('/'), section: parts.length > 1 ? parts[0] : '其他笔记', directories: parts.slice(1, -1) }
+    return { title, url, sourcePath: parts.join('/'), section: parts.length > 1 ? parts[0] : '其他笔记', directories: parts.slice(1, -1), ...readDate(file) }
   }).sort((a, b) => compare(a.title, b.title) || compare(a.url, b.url))
 }
 
@@ -50,7 +54,7 @@ export function collectNotebook(root) {
       group.groups.forEach(sortTree)
     }
     sortTree(tree)
-    return { name, url: `/sections/${encodeURIComponent(name)}.html`, count: sectionNotes.length, notes: sectionNotes, tree }
+    return { name, url: `/sections/${encodeURIComponent(name)}.html`, count: sectionNotes.length, notes: sectionNotes, tree, ...latestUploadDate(sectionNotes) }
   })
   return { notes, sections }
 }
