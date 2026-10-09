@@ -6,6 +6,15 @@ import { createNoteDateReader, latestUploadDate } from './note-dates.mjs'
 export const ignoredDirectories = new Set(['node_modules', '$RECYCLE.BIN', 'System Volume Information', '__MACOSX'])
 const compare = (a, b) => a.localeCompare(b, 'zh-CN', { numeric: true })
 
+function compareNotes(a, b) {
+  const aTime = Date.parse(a.uploadedAt)
+  const bTime = Date.parse(b.uploadedAt)
+  const aDated = Number.isFinite(aTime)
+  const bDated = Number.isFinite(bTime)
+  if (aDated !== bDated) return aDated ? -1 : 1
+  return (aDated ? bTime - aTime : 0) || compare(a.title, b.title) || compare(a.url, b.url)
+}
+
 // One source of truth for cards, section pages and the reading sidebar.
 export function collectNotes(root) {
   const files = []
@@ -29,7 +38,7 @@ export function collectNotes(root) {
     const relativePath = parts.map(encodeURIComponent).join('/')
     const url = '/notes/' + relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '.html')
     return { title, url, sourcePath: parts.join('/'), section: parts.length > 1 ? parts[0] : '其他笔记', directories: parts.slice(1, -1), ...readDate(file) }
-  }).sort((a, b) => compare(a.title, b.title) || compare(a.url, b.url))
+  }).sort(compareNotes)
 }
 
 export function collectNotebook(root) {
