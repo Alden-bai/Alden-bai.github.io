@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { collectNotebook, createNotebookNavigation } from './note-index.mjs'
 import { mathCompatibility, mathOptions } from './math.mjs'
 import { renderNoteSearch } from './note-search.mjs'
+import { codeHighlight } from './code-highlight.mjs'
 
 const notebook = collectNotebook(fileURLToPath(new URL('../notes/', import.meta.url)))
 const navigation = createNotebookNavigation(notebook)
@@ -20,7 +21,7 @@ export default defineConfig({
   ],
   markdown: {
     math: mathOptions,
-    config: md => md.use(mathCompatibility),
+    config: md => md.use(mathCompatibility).use(codeHighlight),
     lineNumbers: true,
     codeCopyButtonTitle: '复制代码'
   },
