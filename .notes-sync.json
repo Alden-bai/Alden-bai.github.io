@@ -5,6 +5,10 @@
       "source": "力扣刷题:../力扣刷题",
       "sha256": "895f9ad1bd862eb75efa1a7a010b30907767e63cdbd5d03a04a523fac897f113"
     },
+    "app-agent项目资料/AWM-reward-design.md": {
+      "source": "app-agent项目资料:../app-agent项目资料",
+      "sha256": "3b65df20503bf0d53bfb1e11d742eaf4f4b0cf10343ff7decbb870784e6424cd"
+    },
     "app-agent项目资料/awm-sft-design.md": {
       "source": "app-agent项目资料:../app-agent项目资料",
       "sha256": "32c858a113012547a5789c5bf490c3f0d9e85f4aa115fb43b624949917d56d1a"
