@@ -16,6 +16,10 @@
     "app-agent项目资料/awm-sft-design.md": {
       "source": "app-agent项目资料:../app-agent项目资料",
       "sha256": "32c858a113012547a5789c5bf490c3f0d9e85f4aa115fb43b624949917d56d1a"
+    },
+    "面试真题/面试复习资料.md": {
+      "source": "面试真题:../网上收集的面试经验",
+      "sha256": "631410675a788db5c3598b31584a7a895779897494ed0ac0a82d27972db1b3cd"
     }
   }
 }
